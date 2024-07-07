@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         SONARQUBE_URL = 'http://192.168.231.132:9000'
-        SONARQUBE_SCANNER = 'SonarQube Scanner'
+        SONARQUBE_SCANNER = '/usr/local/bin/sonar-scanner'
     }
     stages {
         stage('Checkout') {
@@ -29,9 +29,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQb') {
-                        def sourceFilePath = '/var/jenkins_home/workspace/code.php'
-                        sh "ls -l ${sourceFilePath}" // Just to verify the file is accessible
-                        sh "sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=. -Dsonar.host.url=${env.SONARQUBE_URL} -Dsonar.login=sqp_9dae9af6266f850890e0eab631d0ea053eff2d59"
+                        sh "${env.SONARQUBE_SCANNER} -Dsonar.projectKey=my-php-project -Dsonar.sources=. -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=<votre_token>"
                     }
                 }
             }
