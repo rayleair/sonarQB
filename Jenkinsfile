@@ -29,7 +29,13 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQb') {
-                        sh "${env.SONARQUBE_SCANNER} -Dsonar.projectKey=my-php-project -Dsonar.sources=. -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=<votre_token>"
+                        sh """
+                            ${env.SONARQUBE_SCANNER} \
+                            -Dsonar.projectKey=my-php-project \
+                            -Dsonar.sources=. \
+                            -Dsonar.host.url=${env.SONARQUBE_URL} \
+                            -Dsonar.login=<votre_token>
+                        """
                     }
                 }
             }
