@@ -29,8 +29,7 @@ pipeline {
             steps {
                 script {
                     // Copier le fichier code.php dans le workspace Jenkins
-                    // Assurez-vous que le chemin est correct et accessible depuis Jenkins
-                    def sourceFilePath = '/home/rayleair/Desktop/code/code.php'
+                    def sourceFilePath = '/var/jenkins_home/workspace/Pipeline/code.php'
                     def destinationDir = "${env.WORKSPACE}"
                     sh "cp ${sourceFilePath} ${destinationDir}/"
                 }
@@ -40,7 +39,7 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube') {
-                        sh 'sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=. -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=sqp_9dae9af6266f850890e0eab631d0ea053eff2d59'
+                        sh 'sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=. -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=<your-sonar-token>'
                     }
                 }
             }
