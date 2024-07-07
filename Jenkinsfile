@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         SONARQUBE_URL = 'http://192.168.231.132:9000'
-        SONARQUBE_SCANNER = '/usr/local/bin/sonar-scanner'
+        SONARQUBE_SCANNER = 'SonarQube Scanner'
     }
     stages {
         stage('Checkout') {
@@ -29,13 +29,13 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQb') {
-                        sh """
-                        ${env.SONARQUBE_SCANNER} \
-                        -Dsonar.projectKey=my-php-project \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=${env.SONARQUBE_URL} \
-                        -Dsonar.login=<votre_token>
-                        """
+                        sh '''
+                        sonar-scanner \
+                          -Dsonar.projectKey=my-php-project \
+                          -Dsonar.sources=. \
+                          -Dsonar.host.url=${SONARQUBE_URL} \
+                          -Dsonar.login=${SONARQUBE_SCANNER}
+                        '''
                     }
                 }
             }
