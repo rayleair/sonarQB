@@ -30,11 +30,11 @@ pipeline {
                 script {
                     withSonarQubeEnv('SonarQb') {
                         sh """
-                            ${env.SONARQUBE_SCANNER} \
-                            -Dsonar.projectKey=my-php-project \
-                            -Dsonar.sources=. \
-                            -Dsonar.host.url=${env.SONARQUBE_URL} \
-                            -Dsonar.login=<votre_token>
+                        ${env.SONARQUBE_SCANNER} \
+                        -Dsonar.projectKey=my-php-project \
+                        -Dsonar.sources=. \
+                        -Dsonar.host.url=${env.SONARQUBE_URL} \
+                        -Dsonar.login=<votre_token>
                         """
                     }
                 }
@@ -62,4 +62,3 @@ pipeline {
         }
     }
 }
-
