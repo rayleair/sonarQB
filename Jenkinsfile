@@ -25,21 +25,14 @@ pipeline {
                 }
             }
         }
-        stage('Copy Code') {
-            steps {
-                script {
-                    // Copier le fichier code.php dans le workspace Jenkins
-                    def sourceFilePath = '/var/jenkins_home/workspace/Pipeline/code.php'
-                    def destinationDir = "${env.WORKSPACE}"
-                    sh "cp ${sourceFilePath} ${destinationDir}/"
-                }
-            }
-        }
         stage('SonarQube Analysis') {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube') {
-                        sh 'sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=. -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=<your-sonar-token>'
+                        // Assuming the code.php file is already in the workspace or accessible
+                        def sourceFilePath = '/home/rayleair/Desktop/code/code.php'
+                        sh "ls -l ${sourceFilePath}" // Just to verify the file is accessible
+                        sh 'sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=${sourceFilePath} -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=sqp_9dae9af6266f850890e0eab631d0ea053eff2d59'
                     }
                 }
             }
