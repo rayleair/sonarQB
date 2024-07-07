@@ -29,7 +29,7 @@ pipeline {
             steps {
                 script {
                     // Copier le fichier code.php dans le workspace Jenkins
-                    sh 'cp /home/rayleair/Desktop/code/code.php .'
+                    sh 'cp /home/rayleair/Desktop/code/code.php'
                 }
             }
         }
