@@ -29,10 +29,9 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQb') {
-                        // Assuming the code.php file is already in the workspace or accessible
-                        def sourceFilePath = '/home/rayleair/Desktop/code/code.php'
+                        def sourceFilePath = '/var/jenkins_home/workspace/code.php'
                         sh "ls -l ${sourceFilePath}" // Just to verify the file is accessible
-                        sh 'sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=. -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=<sqp_9dae9af6266f850890e0eab631d0ea053eff2d59>'
+                        sh "sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=. -Dsonar.host.url=${env.SONARQUBE_URL} -Dsonar.login=sqp_9dae9af6266f850890e0eab631d0ea053eff2d59"
                     }
                 }
             }
@@ -59,3 +58,4 @@ pipeline {
         }
     }
 }
+
