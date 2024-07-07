@@ -3,6 +3,10 @@ pipeline {
     triggers {
         githubPush()
     }
+    environment {
+        SONARQUBE_URL = 'http://sonarqube:9000'
+        SONARQUBE_SCANNER = 'SonarQube Scanner'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -21,10 +25,42 @@ pipeline {
                 }
             }
         }
+        stage('Copy Code') {
+            steps {
+                script {
+                    // Copier le fichier code.php dans le workspace Jenkins
+                    sh 'cp /home/rayleair/Desktop/code/code.php .'
+                }
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube') {
+                        sh 'sonar-scanner -Dsonar.projectKey=my-php-project -Dsonar.sources=. -Dsonar.host.url=$SONARQUBE_URL -Dsonar.login=<your-sonar-token>'
+                    }
+                }
+            }
+        }
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'MINUTES') {
+                    script {
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
+            }
+        }
     }
     post {
         always {
             echo 'Pipeline finished.'
+        }
+        success {
+            echo 'SonarQube analysis was successful'
+        }
+        failure {
+            echo 'SonarQube analysis failed'
         }
     }
 }
