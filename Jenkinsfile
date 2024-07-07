@@ -1,18 +1,14 @@
 pipeline {
     agent any
-    triggers {
-        githubPush()
-    }
     environment {
         SONARQUBE_URL = 'http://192.168.231.132:9000'
         SONARQUBE_SCANNER = '/opt/sonar-scanner/bin/sonar-scanner'
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
     }
     stages {
         stage('Checkout') {
             steps {
-                script {
-                    git url: 'https://github.com/rayleair/sonarQB.git', branch: 'main'
-                }
+                git url: 'https://github.com/rayleair/sonarQB.git', branch: 'main'
             }
         }
         stage('Identify Changed Files') {
@@ -54,4 +50,3 @@ pipeline {
         }
     }
 }
-
